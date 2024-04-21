@@ -1,6 +1,7 @@
 from friends import graph
 from data import data
-
+import heapq
+from utils import similarity_score
 
 class UnionFind:
     def __init__(self, n : int) -> None:
@@ -131,10 +132,35 @@ def identify_cycle():
         map[uf.parent[i]].append(i)
     
     print(map)
-    
+
+# Identify all the different paths that are available between two users
+def identify_paths(user2, ans, visited, paths, current_user):
+    print(1)
+    if(current_user == user2):
+        paths.append(ans[:])
+        return
+    friends = get_friends(current_user)
+    for friend in friends:
+        if friend not in visited and friend not in ans:
+            visited.add(friend)
+            identify_paths(user2, ans + [friend], visited.copy(), paths, friend)
 
 
-print(identify_cycle())
+
+ 
+
+# print("Finding out all paths between two users")
+# visited = set([3])
+# ans = [3]
+# paths = []
+
+# identify_paths(30, ans, visited, paths, 3)
+# print(paths)
+
+
+
+# print("Cycle identification")
+# identify_cycle()
 
 
 
