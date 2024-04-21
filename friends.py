@@ -86,23 +86,23 @@ graph = {
 }
 
 
-# G = nx.Graph(graph)
+G = nx.Graph(graph)
 
-# # Create 3D positions for each node
-# pos = {node: (np.random.rand(), np.random.rand(), np.random.rand()) for node in G.nodes()}
+# Create 3D positions for each node
+pos = {node: (np.random.rand(), np.random.rand(), np.random.rand()) for node in G.nodes()}
 
-# # Create a 3D plot
-# fig = plt.figure()
-# ax = fig.add_subplot(111, projection='3d')
+# Create a 3D plot
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
 
-# # Add nodes and edges to the plot
-# for node, (x, y, z) in pos.items():
-#     ax.scatter(x, y, z)
-# for edge in G.edges():
-#     x = np.array((pos[edge[0]][0], pos[edge[1]][0]))
-#     y = np.array((pos[edge[0]][1], pos[edge[1]][1]))
-#     z = np.array((pos[edge[0]][2], pos[edge[1]][2]))
-#     ax.plot(x, y, z, color='blue')
+# Add nodes and edges to the plot
+for node, (x, y, z) in pos.items():
+    ax.scatter(x, y, z)
+for edge in G.edges():
+    x = np.array((pos[edge[0]][0], pos[edge[1]][0]))
+    y = np.array((pos[edge[0]][1], pos[edge[1]][1]))
+    z = np.array((pos[edge[0]][2], pos[edge[1]][2]))
+    ax.plot(x, y, z, color='blue')
 
-# # Display the plot
-# plt.show()
+# Display the plot
+plt.show()

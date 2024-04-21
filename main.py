@@ -1,7 +1,31 @@
 from friends import graph
 from data import data
-import json
 
+
+class UnionFind:
+    def __init__(self, n : int) -> None:
+        self.parent = [i for i in range(n + 1)]
+        self.size = [0] * (n + 1)
+        self.count : int  = n
+    
+    def find(self, x : int) -> int:
+        if(self.parent[x] != x):
+            self.parent[x] =  self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, x : int, y : int) -> bool :
+        parx = self.find(x)
+        pary = self.find(y)
+        if(parx == pary):
+            return False
+        if(self.size[parx] < self.size[pary]):
+            self.parent[parx] = pary
+            self.size[pary] += self.size[parx]
+        else :
+            self.parent[pary] = parx
+            self.size[parx] += self.size[pary]
+        self.count -= 1
+        return True
 
 
 
@@ -92,7 +116,25 @@ def create_cluster():
             clusters.append(cluster)
     return clusters
 
-print(create_cluster())
+# Create communities based on friends cycle
+def identify_cycle():
+    uf = UnionFind(len(graph)) 
+    for user in graph:
+        for friend in graph[user]:
+            uf.union(int(user), friend)
+
+    map = {}
+
+    for i in range(len(uf.parent)):
+        if uf.parent[i] not in map:
+            map[uf.parent[i]] = []
+        map[uf.parent[i]].append(i)
+    
+    print(map)
+    
+
+
+print(identify_cycle())
 
 
 
