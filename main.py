@@ -133,6 +133,31 @@ def identify_cycle():
     
     print(map)
 
+# Identify shortest path between two users 
+def calculate_min_path(user1, user2):
+    distances = [float('inf') for i in range(len(graph) + 1)]
+    distances[user1] = 0
+
+    priority_queue = [(0, user1, [user1])]
+
+    while priority_queue:
+        current_distance, current_node, path = heapq.heappop(priority_queue)
+
+        if current_node == user2:
+            return path, current_distance
+        
+        if current_distance > distances[current_node]:
+            continue
+        for index, neighbour in enumerate(get_friends(current_node)):
+            distance = current_distance + similarity_score[current_node - 1][index] 
+
+            if distance < distances[neighbour]:
+                distances[neighbour] = distance
+                heapq.heappush(priority_queue, (distance, neighbour, path + [neighbour]))
+
+
+    return None, float('inf')
+
 # Identify all the different paths that are available between two users
 def identify_paths(user2, ans, visited, paths, current_user):
     print(1)
