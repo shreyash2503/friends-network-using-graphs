@@ -2,6 +2,7 @@ from friends import graph
 from data import data
 import heapq
 from utils import similarity_score
+import networkx as nx
 
 class UnionFind:
     def __init__(self, n : int) -> None:
@@ -29,8 +30,6 @@ class UnionFind:
         return True
 
 
-
-user = 3
 
 def get_friends(user):
     return graph[str(user)]
@@ -130,8 +129,12 @@ def identify_cycle():
         if uf.parent[i] not in map:
             map[uf.parent[i]] = []
         map[uf.parent[i]].append(i)
+
+    return map
+
+
     
-    print(map)
+    
 
 # Identify shortest path between two users 
 def calculate_min_path(user1, user2):
@@ -172,20 +175,33 @@ def identify_paths(user2, ans, visited, paths, current_user):
 
 
 
- 
+id = int(input("Enter the user id::"))
+print("Friends of the user are::", get_friends(id))
+print("Friends recommended using collaborative filtering are::", recommend_friends(id))
+print("Friends recommended using common interests are::", recommend_friends_interests(id))
+print("Degree of centrality of user is::", centrality(id))
+print("Cluster of users having similar interests are::", create_cluster())
 
-# print("Finding out all paths between two users")
-# visited = set([3])
-# ans = [3]
-# paths = []
+for i in range(1, 81):
+    if(i == id):
+        continue
+    path, distance = calculate_min_path(id, i)
+    print(f"Shortest path between {id} and {i} is {path} ")
 
-# identify_paths(30, ans, visited, paths, 3)
-# print(paths)
+print("Finding out all paths between two users")
 
 
+# for i in range(1, 81):
+#     if(i == id):
+#         continue
+#     visited = set([id])
+#     ans = [id]
+#     paths = []
+#     identify_paths(i, ans, visited, paths, id)
+#     print(f"Paths between {id} and {i} are {paths}")
 
-# print("Cycle identification")
-# identify_cycle()
 
+print("Identifying cycles in the graph")
+print(identify_cycle())
 
 
